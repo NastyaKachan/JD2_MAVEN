@@ -1,0 +1,154 @@
+create database TASK6;
+CREATE TABLE TASK6.USERS
+(
+    id   INT         NOT NULL,
+    name VARCHAR(20) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE TASK6.orders
+(
+    order_id INT NOT NULL,
+    user_id  INT,
+    PRIMARY KEY (order_id),
+    FOREIGN KEY (user_id) REFERENCES TASK6.USERS (id)
+);
+
+alter table TASK6.orders
+    add column customer_id int not null;
+
+insert into TASK6.users(id, name)
+values (1, 'Anna'),
+       (2, 'Darya'),
+       (3, 'Elena'),
+       (4, 'Petr'),
+       (5, 'Ivan');
+
+insert into TASK6.orders(order_id, user_id, customer_id)
+values (10, 1, 2),
+       (20, 2, 2),
+       (30, 3, 1),
+       (40, 4, 3),
+       (50, 5, 1);
+
+SELECT *
+FROM TASK6.USERS
+ORDER BY name DESC;
+
+SELECT *
+FROM TASK6.USERS
+ORDER BY name;
+
+CREATE TABLE TASK6.customers
+(
+    customer_id   INT(11)     NOT NULL,
+    customer_name VARCHAR(20) NOT NULL,
+    user_id       int(11),
+    order_id      INT(11),
+    city          char(20)    not null,
+    PRIMARY KEY (customer_id),
+    FOREIGN KEY (user_id) REFERENCES TASK6.USERS (id)
+);
+
+insert into TASK6.customers(customer_id, customer_name, user_id, order_id, city)
+values (1, 'customer#1', 1, 2, 'Minsk'),
+       (2, 'customer#2', 2, 3, 'Grodno'),
+       (3, 'customer#3', 4, 5, 'Gomel'),
+       (3, 'customer#3', 4, 5, 'Gomel');
+
+SELECT TASK6.orders.order_id, TASK6.customers.customer_id
+FROM TASK6.orders
+         INNER JOIN TASK6.customers ON TASK6.orders.customer_id = TASK6.customers.customer_id;
+
+
+
+SELECT A.customer_name AS CustomerName1, B.customer_name AS CustomerName2, A.city
+FROM TASK6.customers A,
+     TASK6.customers B
+WHERE A.customer_id = B.customer_id
+  AND A.city = B.city
+ORDER BY A.city;
+
+SELECT customer_name, city
+FROM TASK6.customers
+where order_id = 2
+UNION
+SELECT customer_name, city name
+FROM TASK6.customers
+where order_id = 5;
+
+SELECT *
+FROM TASK6.users
+WHERE name LIKE '%d%';
+SELECT *
+FROM TASK6.users
+WHERE name LIKE '__a%';
+
+SELECT city, customer_name AS customers_new
+FROM TASK6.customers;
+
+create table TASK6.cities
+(
+    id        int(11) not null primary key,
+    name_city char(20)
+);
+insert into TASK6.cities(id, name_city)
+values (1, 'Grodno'),
+       (2, 'Minsk'),
+       (3, 'Gomel'),
+       (4, 'Mogilev'),
+       (5, 'Vitebsk');
+
+create table TASK6.cities_2
+(
+    id   int(11),
+    name char(20)
+);
+
+insert into TASK6.cities_2
+select *
+from TASK6.cities
+where cities.id > 2;
+
+DELETE
+FROM TASK6.cities_2
+WHERE id = 5;
+
+TRUNCATE TABLE TASK6.cities_2;
+
+SELECT *
+FROM TASK6.users
+WHERE users.id % 2 != 0;
+
+SELECT customer_name, COUNT(customer_name)
+FROM TASK6.customers
+GROUP BY customer_name
+HAVING COUNT(customer_name) > 1;
+
+SELECT DISTINCT customer_name
+FROM TASK6.customers;
+
+alter table TASK6.users
+    add column salary int(10) not null;
+
+update TASK6.users
+SET task6.USERS.salary = 1000
+where id = 1;
+update TASK6.users
+SET task6.USERS.salary = 1500
+where id = 2;
+update TASK6.users
+SET task6.USERS.salary = 2300
+where id > 2;
+
+UPDATE TASK6.users
+SET salary =
+        CASE
+            WHEN task6.USERS.salary = 1000 THEN 1300
+            WHEN task6.USERS.salary = 1500 THEN 1800
+            ELSE 2500
+            END;
+
+SELECT CONCAT(name, ' ', salary) AS name_salary FROM TASK6.users;
+
+ALTER TABLE TASK6.users RENAME TASK6.employees;
