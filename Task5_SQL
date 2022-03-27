@@ -1,0 +1,43 @@
+create database People;
+create table People.person
+(
+    id             int(20) auto_increment primary key,
+    age            int(2),
+    salary         decimal(10),
+    passport       char(10),
+    address        varchar(200),
+    dateOfBirthday date,
+    dateTimeCreate datetime,
+    timeToLunch    time,
+    letter         text
+);
+
+insert into People.person (age, salary, passport, address, dateOfBirthday, dateTimeCreate,
+                           timeToLunch, letter)
+values (25, 1500, 'MP1234567', 'Minsk, Vaneeva, 10', '1995-05-02', '2022-03-25 21:00:00',
+        '12:30:00', 'Person #1');
+
+insert into People.person (age, salary, passport, address, dateOfBirthday, dateTimeCreate,
+                           timeToLunch, letter)
+values (30, 2400, 'MP2345678', 'Minsk, Skryganova, 25', '1990-08-15', '2022-03-25 21:01:00',
+        '12:30:00', 'Person #2');
+
+insert into People.person (age, salary, passport, address, dateOfBirthday, dateTimeCreate,
+                           timeToLunch, letter)
+values (28, 1800, 'MP3456789', 'Minsk, Nemiga, 20', '1992-06-27', '2022-03-25 21:10:00',
+        '12:30:00', 'Person #3');
+
+insert into People.person (age, salary, passport, address, dateOfBirthday, dateTimeCreate,
+                           timeToLunch, letter)
+values (25, 1500, 'MP4567890', 'Minsk, Koltsova, 11', '1995-05-11', '2022-03-25 21:04:00',
+        '12:30:00', 'Person #4');
+
+insert into People.person (age, salary, passport, address, dateOfBirthday, dateTimeCreate,
+                           timeToLunch, letter)
+values (20, 1200, 'MP5678901', 'Minsk, Komsomolskaya, 12', '2022-11-02', '2022-03-25 21:03:00',
+        '12:30:00', 'Person #5');
+
+
+select * from People.person
+where age > 21 order by person.dateTimeCreate;
+
